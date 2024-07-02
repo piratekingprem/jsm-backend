@@ -1,11 +1,91 @@
 const express = require('express');
 const router = express.Router();
+const { upload }= require("../helpers/commonHelper")
 
 // App Controller
+const authController = require("../controllers/authController");
 const testController = require("../controllers/test");
+const blogController  =require("../controllers/blogs");
+const contactUsController = require('../controllers/contact_us');
+const serviceController = require('../controllers/service');
+const productController = require('../controllers/product');
+const productImageController = require('../controllers/product_image');
+const productFeatureController = require('../controllers/product_features');
+const cartController = require('../controllers/cart');
+const userController = require('../controllers/user');
+const BannerController = require('../controllers/banners');
 
 // Test_API
 router.get("/test",testController.get_test);
 router.post("/test",testController.store_test);
+
+// AUTH_api
+router.post("login",authController.login);
+router.post('/resgister',authController.register);
+router.post('/refresh-token')
+// Blog_Api
+router.get('/blogs',blogController.get_blogs);
+router.get("/blogs/:id",blogController.get_blogs_by_id);
+router.post("/blogs",upload.single("blogs_image"),blogController.store_blogs);
+router.put("/blogs/:id",blogController.update_blogs);
+router.delete("/blogs/:id",blogController.delete_blogs);
+
+// Contact_us 
+router.get('/contact_us',contactUsController.get_contact_us);
+router.get('/contact_us/:id',contactUsController.get_contact_us_id);
+router.post('/contact_us',contactUsController.store_contact_us);
+router.put('/contact_us/:id',contactUsController.update_contact_us);
+router.delete('/contact_us/:id',contactUsController.delete_contact_us);
+
+// Service_api
+router.get('/service',serviceController.get_service);
+router.get('/service/:id',serviceController.get_service_id);
+router.post('/service',serviceController.store_service);
+router.put('/service/:id',serviceController.update_service)
+router.delete('/service/:id',serviceController.delete_service);
+
+// Product_API
+router.get('/product',productController.get_product);
+router.get('/product/:id',productController.get_product_id);
+router.post('/product',productController.store_product);
+router.put('/product/:id',productController.update_product);
+router.delete('/product/:id',productController.delete_product);
+
+// product_image_api
+router.get('/product_image',productImageController.get_product);
+router.get('/product_image/:id',productImageController.get_product_by_id);
+router.get('/product/:product_id',productImageController.get_product_image_by_product_id);
+router.post('/product_image',upload.single("image_url"),productImageController.store_product_image)
+router.put('/product_image/:id',upload.single("image_url"),productImageController.update_product);
+router.delete('/product_image/:id',productImageController.delete_product_image);
+
+// product_features_api
+router.get('/product_features',productFeatureController.get_product_features);
+router.get('/product_features/:id',productFeatureController.get_product_features_by_id)
+router.get('/product/:product_id',productFeatureController.get_product_features_by_product_id);
+router.post('/product_features',productFeatureController.store_product_feature);
+router.put('/product_feature/:id',productFeatureController.update_product_feature);
+router.delete('/product_feature/:product_id',productFeatureController.delete_product_features);
+
+// cart_api
+router.get('/cart',cartController.get_cart);
+router.get('/cart/:id',cartController.get_cart_by_id);
+router.get('/cart/:userId',cartController.get_by_cart_user_id);
+router.post('/cart',cartController.store_cart);
+router.put('/cart/:id',cartController.update_cart);
+router.delete('cart/:id',cartController.delete_cart);
+
+// usercontroller
+router.get("/user", userController.get_user_list);
+router.get("/user/:id", verify, userController.get_user);
+router.delete("/user/:id",verify,userValidation.deleteValidation,userController.delete_user);
+
+// BannerController
+router.get('/banner',BannerController.get_banner);
+router.get('/banner/:id',BannerController.get_banner_by_id);
+router.get('/banner/:banner_category',BannerController.get_banner_by_banner_category);
+router.post('/banner',upload.single("banner_image"),BannerController.store_banner)
+router.put('/banner/:id',upload.single("banner_image"),BannerController.update_banner);
+router.delete('/banner/:id',BannerController.update_banner);
 
 module.exports = router;
