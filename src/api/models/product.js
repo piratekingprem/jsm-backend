@@ -90,7 +90,7 @@ LEFT JOIN
 WHERE
     p.id = ${id}
 GROUP BY
-    p.id    
+    p.id
 `,
       []
     );

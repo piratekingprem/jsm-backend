@@ -77,8 +77,8 @@ router.delete('cart/:id',cartController.delete_cart);
 
 // usercontroller
 router.get("/user", userController.get_user_list);
-router.get("/user/:id", verify, userController.get_user);
-router.delete("/user/:id",verify,userValidation.deleteValidation,userController.delete_user);
+router.get("/user/:id", userController.get_user);
+router.delete("/user/:id",userController.delete_user);
 
 // BannerController
 router.get('/banner',BannerController.get_banner);

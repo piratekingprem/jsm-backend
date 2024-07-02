@@ -5,4 +5,4 @@ module.exports = {
         banner_category varchar(225) NULL
     )`,
     "down": "DROP TABLE IF EXISTS banners"
-}
+}   
