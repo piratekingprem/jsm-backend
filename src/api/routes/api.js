@@ -83,7 +83,7 @@ router.delete("/user/:id",userController.delete_user);
 // BannerController
 router.get('/banner',BannerController.get_banner);
 router.get('/banner/:id',BannerController.get_banner_by_id);
-router.get('/banner/:banner_category',BannerController.get_banner_by_banner_category);
+router.get('/banner/banner_category/:banner_category',BannerController.get_banner_by_banner_category);
 router.post('/banner',upload.single("banner_image"),BannerController.store_banner)
 router.put('/banner/:id',upload.single("banner_image"),BannerController.update_banner);
 router.delete('/banner/:id',BannerController.delete_banner);
