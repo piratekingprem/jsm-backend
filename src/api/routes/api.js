@@ -14,6 +14,8 @@ const productFeatureController = require('../controllers/product_features');
 const cartController = require('../controllers/cart');
 const userController = require('../controllers/user');
 const BannerController = require('../controllers/banners');
+const poojaController = require('../controllers/pooja');
+const price_tierController = require('../controllers/price_tier');
 
 // Test_API
 router.get("/test",testController.get_test);
@@ -87,5 +89,19 @@ router.get('/banner/banner_category/:banner_category',BannerController.get_banne
 router.post('/banner',upload.single("banner_image"),BannerController.store_banner)
 router.put('/banner/:id',upload.single("banner_image"),BannerController.update_banner);
 router.delete('/banner/:id',BannerController.delete_banner);
+
+// PoojaController
+router.get('/pooja',poojaController.get_pooja);
+router.get('/pooja/:id',poojaController.get_pooja_by_id);
+router.post('/pooja',upload.single('image'),poojaController.store_pooja);
+router.put('/pooja/:id',upload.single('image'),poojaController.update_pooja);
+router.delete('/pooja/:id',poojaController.delete_pooja);
+
+// Price_tierController
+router.get('/price_tier',price_tierController.get_price_tier);
+router.get('/price_tier/:id',price_tierController.get_price_tier_by_id);
+router.post('/price_tier',price_tierController.store_price_tier);
+router.put('/price_tier/:id',price_tierController.update_price_tier);
+router.delete('/price_tier/:id',price_tierController.delete_price_tier);
 
 module.exports = router;
