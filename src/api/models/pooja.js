@@ -7,12 +7,12 @@ exports.store = async (file, params) => {
   let image = file ? file.filename : null;
   try {
     const pooja = await db.query(
-      `INSERT INTO pooja (pooja_name,image,message,features) VALUES (?,?,?,?)`,
+      `INSERT INTO pooja (pooja_name, image, message, features) VALUES (?, ?, ?, ?)`,
       [params.pooja_name, image, params.message, params.features]
     );
     (message = "Error in updating pooja"), (code = 400), (data = []);
     if (pooja.affectedRows) {
-      (message = "Successfully created poojs"), (code = 201), (data = pooja);
+      (message = "Successfully created pooja"), (code = 201), (data = pooja);
     }
   } catch (error) {
     message = error;
@@ -25,32 +25,44 @@ exports.get = async () => {
     code = 500,
     data = [];
   try {
-    const poojaWithPriceTiers  = await db.query(
+    const poojaWithPriceTiers = await db.query(
       `SELECT 
-                pooja.id, pooja.pooja_name, pooja.image, pooja.message, pooja.features,
-                price_tier.id AS price_tier_id, price_tier.tier_name, price_tier.price, price_tier.features AS price_tier_features
-            FROM 
-                pooja
-            LEFT JOIN 
-                price_tier ON pooja.id = price_tier.pooja_id
-                `,
+        pooja.id, pooja.pooja_name, pooja.image, pooja.message, pooja.features,
+        price_tier.id AS price_tier_id, price_tier.tier_name, price_tier.price, price_tier.features AS price_tier_features
+      FROM 
+        pooja
+      LEFT JOIN 
+        price_tier ON pooja.id = price_tier.pooja_id`,
       []
     );
+    
     if (poojaWithPriceTiers.length) {
       // Group price tiers under the pooja
-      const pooja = {
-        id: poojaWithPriceTiers[0].id,
-        pooja_name: poojaWithPriceTiers[0].pooja_name,
-        image: poojaWithPriceTiers[0].image,
-        message: poojaWithPriceTiers[0].message,
-        features: poojaWithPriceTiers[0].features,
-        price_tiers: poojaWithPriceTiers.map((pt) => ({
-          id: pt.price_tier_id,
-          tier_name: pt.tier_name,
-          price: pt.price,
-          features: pt.price_tier_features,
-        })),
-      };
+      const poojaMap = {};
+      
+      poojaWithPriceTiers.forEach(row => {
+        if (!poojaMap[row.id]) {
+          poojaMap[row.id] = {
+            id: row.id,
+            pooja_name: row.pooja_name,
+            image: row.image,
+            message: row.message,
+            features: row.features,
+            price_tiers: []
+          };
+        }
+        
+        if (row.price_tier_id) {
+          poojaMap[row.id].price_tiers.push({
+            id: row.price_tier_id,
+            tier_name: row.tier_name,
+            price: row.price,
+            features: row.price_tier_features,
+          });
+        }
+      });
+
+      const pooja = Object.values(poojaMap);
 
       message = "Successfully fetched pooja";
       code = 200;
@@ -60,25 +72,27 @@ exports.get = async () => {
       code = 404;
     }
   } catch (error) {
-    message = { error };
+    message = error.message || error;
   }
   return { message, code, data };
 };
+
 exports.get_by = async (id) => {
   let message = "Something went wrong",
     code = 500,
     data = [];
   try {
-    const pooja = await db.query(`SELECT * FROM pooja WHERE id = ${id}`, []);
+    const pooja = await db.query(`SELECT * FROM pooja WHERE id = ?`, [id]);
     (message = "No pooja found"), (code = 400), (data = []);
     if (pooja.length) {
-      (message = "Successfully fetced pooja"), (code = 200), (data = pooja);
+      (message = "Successfully fetched pooja"), (code = 200), (data = pooja);
     }
   } catch (error) {
-    message = error;
+    message = error.message || error;
   }
   return { message, code, data };
 };
+
 exports.update = async (id, file, params) => {
   let message = "Something went wrong",
     code = 500,
@@ -86,32 +100,31 @@ exports.update = async (id, file, params) => {
   let image = file ? file.filename : null;
   try {
     const pooja = await db.query(
-      `UPDATE pooja SET pooja_name = ?,image = ?,message = ?,features = ? WHERE id = ?`,
+      `UPDATE pooja SET pooja_name = ?, image = ?, message = ?, features = ? WHERE id = ?`,
       [params.pooja_name, image, params.message, params.features, id]
     );
     (message = "Error in updating pooja"), (code = 400), (data = []);
     if (pooja.affectedRows) {
-      (message = "successfully updating the pooja"),
-        (code = 200),
-        (data = pooja);
+      (message = "Successfully updated the pooja"), (code = 200), (data = pooja);
     }
   } catch (error) {
-    message = error;
+    message = error.message || error;
   }
   return { message, code, data };
 };
+
 exports.delete = async (id) => {
   let message = "Something went wrong",
     code = 500,
     data = [];
   try {
-    const pooja = await db.query(`DELETE FROM pooja WHERE id = ${id}`, []);
+    const pooja = await db.query(`DELETE FROM pooja WHERE id = ?`, [id]);
     (message = "Error in deleting pooja"), (code = 400), (data = []);
     if (pooja.affectedRows) {
-      (message = "successfully deleted pooja"), (code = 200), (data = pooja);
+      (message = "Successfully deleted pooja"), (code = 200), (data = pooja);
     }
   } catch (error) {
-    message = error;
+    message = error.message || error;
   }
   return { message, code, data };
 };
