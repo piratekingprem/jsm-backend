@@ -82,16 +82,60 @@ exports.get_by = async (id) => {
     code = 500,
     data = [];
   try {
-    const pooja = await db.query(`SELECT * FROM pooja WHERE id = ?`, [id]);
-    (message = "No pooja found"), (code = 400), (data = []);
-    if (pooja.length) {
-      (message = "Successfully fetched pooja"), (code = 200), (data = pooja);
+    const poojaWithPriceTiers = await db.query(
+      `SELECT 
+        pooja.id, pooja.pooja_name, pooja.image, pooja.message, pooja.features,
+        price_tier.id AS price_tier_id, price_tier.tier_name, price_tier.price, price_tier.features AS price_tier_features
+      FROM 
+        pooja
+      LEFT JOIN 
+        price_tier ON pooja.id = price_tier.pooja_id
+      WHERE 
+        pooja.id = ?`,
+      [id]
+    );
+    
+    if (poojaWithPriceTiers.length) {
+      // Group price tiers under the pooja
+      const poojaMap = {};
+
+      poojaWithPriceTiers.forEach(row => {
+        if (!poojaMap[row.id]) {
+          poojaMap[row.id] = {
+            id: row.id,
+            pooja_name: row.pooja_name,
+            image: row.image,
+            message: row.message,
+            features: row.features,
+            price_tiers: []
+          };
+        }
+
+        if (row.price_tier_id) {
+          poojaMap[row.id].price_tiers.push({
+            id: row.price_tier_id,
+            tier_name: row.tier_name,
+            price: row.price,
+            features: row.price_tier_features,
+          });
+        }
+      });
+
+      const pooja = Object.values(poojaMap);
+
+      message = "Successfully fetched pooja";
+      code = 200;
+      data = pooja;
+    } else {
+      message = "No pooja found";
+      code = 404;
     }
   } catch (error) {
     message = error.message || error;
   }
   return { message, code, data };
 };
+
 
 exports.update = async (id, file, params) => {
   let message = "Something went wrong",
