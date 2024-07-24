@@ -2,7 +2,7 @@ module.exports = {
     "up": `CREATE TABLE IF NOT EXISTS product(
         id INT AUTO_INCREMENT primary key,
         product_name varchar(36) Null,
-        prouct_description TEXT NULL,
+        product_description TEXT NULL,
         product_short_description TEXT NULL,
         subcategory_id INT,
         price decimal(10,2),

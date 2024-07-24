@@ -6,10 +6,10 @@ exports.store = async (params) => {
     data = [];
   try {
     const product = await db.query(
-      `INSERT INTO product (product_name,prouct_description,product_short_description,subcategory_id,price,stock_quantity) VALUES (?,?,?,?,?,?)`,
+      `INSERT INTO product (product_name,product_description,product_short_description,subcategory_id,price,stock_quantity) VALUES (?,?,?,?,?,?)`,
       [
         params.product_name,
-        params.prouct_description,
+        params.product_description,
         params.product_short_description,
         params.subcategory_id,
         params.price,
@@ -37,7 +37,7 @@ exports.get = async () => {
       `SELECT 
     p.id,
     p.product_name,
-    p.prouct_description,
+    p.product_description,
     p.product_short_description,
     p.subcategory_id,
     p.price,
@@ -74,7 +74,7 @@ exports.get_id = async (id) => {
       `SELECT 
     p.id,
     p.product_name,
-    p.prouct_description,
+    p.product_description,
     p.product_short_description,
     p.subcategory_id,
     p.price,
@@ -110,10 +110,10 @@ exports.update = async (id, params) => {
     data = [];
   try {
     const product = await db.query(
-      `UPDATE product SET product_name = ?,prouct_description = ?,product_short_description = ?,subcategory_id = ?,price = ?,stock_quantity = ? WHERE id = ${id}`,
+      `UPDATE product SET product_name = ?,product_description = ?,product_short_description = ?,subcategory_id = ?,price = ?,stock_quantity = ? WHERE id = ${id}`,
       [
         params.product_name,
-        params.prouct_description,
+        params.product_description,
         params.product_short_description,
         params.subcategory_id,
         params.price,
