@@ -58,7 +58,7 @@ exports.store = async (params) => {
         );
         message = "Error in creating user",code = 400,data = [];
         if(user.affectedRows){
-            message = "User created successfully",code = 200,data = user
+            message = "User created successfully",code = 201,data = user
         }
     } catch (error) {
         message = error;

@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const { upload }= require("../helpers/commonHelper")
 
+// VerifyToken
+const verify = require('../middleware/verifyToken');
+
 // App Controller
 const authController = require("../controllers/authController");
 const testController = require("../controllers/test");
@@ -18,14 +21,21 @@ const poojaController = require('../controllers/pooja');
 const price_tierController = require('../controllers/price_tier');
 const pooja_categoryController = require('../controllers/poojaCategory');
 
+
+// auth api
+router.get('/auth',verify,(req,res) =>{
+    res.json({message: "okay"})
+})
+
 // Test_API
 router.get("/test",testController.get_test);
 router.post("/test",testController.store_test);
 
 // AUTH_api
 router.post("login",authController.login);
-router.post('/resgister',authController.register);
+router.post('/register',authController.register);
 router.post('/refresh-token')
+
 // Blog_Api
 router.get('/blogs',blogController.get_blogs);
 router.get("/blogs/:id",blogController.get_blogs_by_id);
