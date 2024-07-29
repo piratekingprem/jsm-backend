@@ -67,7 +67,7 @@ router.delete('/product/:id',productController.delete_product);
 // product_image_api
 router.get('/product_image',productImageController.get_product);
 router.get('/product_image/:id',productImageController.get_product_by_id);
-router.get('/product/:product_id',productImageController.get_product_image_by_product_id);
+router.get('/product_image/images/:product_id',productImageController.get_product_image_by_product_id);
 router.post('/product_image',upload.single("image_url"),productImageController.store_product_image)
 router.put('/product_image/:id',upload.single("image_url"),productImageController.update_product);
 router.delete('/product_image/:id',productImageController.delete_product_image);
