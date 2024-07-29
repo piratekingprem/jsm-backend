@@ -24,7 +24,7 @@ exports.get = async () => {
     try {
       const carts = await db.query(
         `
-          SELECT cart.*, product.product, product.product_image, product.product_price, product.product_description from cart LEFT JOIN product ON cart.product_id = product.id  ORDER BY cart.created_at DESC`,
+          SELECT cart.*, product.product_name, product.price, product.product_description from cart LEFT JOIN product ON cart.product_id = product.id  ORDER BY cart.created_at DESC`,
         []
       );
       (message = "cart is empty"), (code = 400), (data = []);
@@ -42,7 +42,7 @@ exports.get_by_id = async (id) => {
       data = [];
     try {
       const carts = await db.query(
-        `  SELECT cart.*, product.product, product.product_image, product.product_price, product.product_description from cart LEFT JOIN product ON cart.product_id = product.id WHERE cart.id = ${id} ORDER BY cart.created_at DESC`,
+        `  SELECT cart.*, product.product_name, product.price, product.product_description from cart LEFT JOIN product ON cart.product_id = product.id WHERE cart.id = ${id} ORDER BY cart.created_at DESC`,
         []
       );
       (message = "cart is empty"), (code = 400);
@@ -60,7 +60,7 @@ exports.get_by_cart_user_id = async (userId) => {
       data = [];
     try {
       const carts = await db.query(
-        `SELECT cart.*, product.product, product.product_image, product.product_price, product.product_description from cart LEFT JOIN product ON cart.product_id = product.id WHERE cart.user_id = ${userId} ORDER BY cart.created_at DESC`
+        `SELECT cart.*, product.product_name, product.price, product.product_description from cart LEFT JOIN product ON cart.product_id = product.id WHERE cart.user_id = ${userId} ORDER BY cart.created_at DESC`
       );
       (message = "cart is empty"), (code = 400);
       if (carts.length) {

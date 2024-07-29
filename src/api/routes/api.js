@@ -83,7 +83,7 @@ router.delete('/product_feature/:product_id',productFeatureController.delete_pro
 // cart_api
 router.get('/cart',cartController.get_cart);
 router.get('/cart/:id',cartController.get_cart_by_id);
-router.get('/cart/:userId',cartController.get_by_cart_user_id);
+router.get('/cart_by_user_id/:userId',cartController.get_by_cart_user_id);
 router.post('/cart',cartController.store_cart);
 router.put('/cart/:id',cartController.update_cart);
 router.delete('cart/:id',cartController.delete_cart);
