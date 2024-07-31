@@ -21,6 +21,8 @@ const poojaController = require('../controllers/pooja');
 const price_tierController = require('../controllers/price_tier');
 const pooja_categoryController = require('../controllers/poojaCategory');
 
+// Validators
+const userValidator = require('../validations/usersValidation');
 
 // auth api
 router.get('/auth',verify,(req,res) =>{
@@ -33,8 +35,8 @@ router.post("/test",testController.store_test);
 
 // AUTH_api
 router.post("/login",authController.login);
-router.post('/register',authController.register);
-router.post('/refresh-token')
+router.post('/register',userValidator.registerValidation,authController.register);
+router.post('/refresh-token',userValidator.refreshTokenValidation,authController.refreshToken);
 
 // Blog_Api
 router.get('/blogs',blogController.get_blogs);

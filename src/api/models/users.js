@@ -38,11 +38,11 @@ exports.get_user_by_email = async (email) => {
     let message = 'Something went wrong',code = 500,data = [];
     try {
         const user = await db.query(
-            `SELECT * FROM user WHERE email = ?`,[]
+            `SELECT * FROM user WHERE email = ?`,[email]
         )
         message = "No user found",code = 400,data = [];
         if(user.length){
-            message = "User fetched successfully",code = 200,data = user
+            message = "User fetched successfully",code = 200,data = user[0]
         }
     } catch (error) {
         message = error

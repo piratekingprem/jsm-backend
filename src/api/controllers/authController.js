@@ -5,6 +5,7 @@ const userModel = require('../models/users');
 exports.login = async (req,res,next) => {
     try {
         const user = await userModel.get_user_by_email(req.body.email);
+        console.log(user.data.password)
         const isPasswordValid = await bcrypt.compare(req.body.password, user.data.password);
         const message = isPasswordValid ? "Password is valid" : "Password is invalid";
         const status = isPasswordValid ? 200 : 401;
