@@ -32,7 +32,7 @@ router.get("/test",testController.get_test);
 router.post("/test",testController.store_test);
 
 // AUTH_api
-router.post("login",authController.login);
+router.post("/login",authController.login);
 router.post('/register',authController.register);
 router.post('/refresh-token')
 
