@@ -86,7 +86,7 @@ router.delete('/product_feature/:product_id',productFeatureController.delete_pro
 router.get('/cart',cartController.get_cart);
 router.get('/cart/:id',verify,cartController.get_cart_by_id);
 router.get('/cart_by_user_id/:userId',verify,cartController.get_by_cart_user_id);
-router.post('/cart',verify,cartController.store_cart);
+router.post('/cart',cartController.store_cart);
 router.put('/cart/:id',cartController.update_cart);
 router.delete('cart/:id',cartController.delete_cart);
 
