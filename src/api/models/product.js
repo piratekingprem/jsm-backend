@@ -1,14 +1,16 @@
 const db = require("../../config/db");
 
-exports.store = async (params) => {
+exports.store = async (file, params) => {
   let message = "Something went wrong",
     code = 500,
     data = [];
+  let image = file ? file.filename : null;
   try {
     const product = await db.query(
-      `INSERT INTO product (product_name,product_description,product_short_description,subcategory_id,price,stock_quantity) VALUES (?,?,?,?,?,?)`,
+      `INSERT INTO product (product_name,main_image,product_description,product_short_description,subcategory_id,price,stock_quantity) VALUES (?,?,?,?,?,?,?)`,
       [
         params.product_name,
+        image,
         params.product_description,
         params.product_short_description,
         params.subcategory_id,
@@ -37,6 +39,7 @@ exports.get = async () => {
       `SELECT 
     p.id,
     p.product_name,
+    p.main_image,
     p.product_description,
     p.product_short_description,
     p.subcategory_id,
@@ -74,6 +77,7 @@ exports.get_id = async (id) => {
       `SELECT 
     p.id,
     p.product_name,
+    p.main_image,
     p.product_description,
     p.product_short_description,
     p.subcategory_id,

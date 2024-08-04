@@ -2,7 +2,7 @@ const productModel = require('../models/product');
 
 exports.store_product = async (req,res,next)=>{
     try {
-        const product = await productModel.store(req.body);
+        const product = await productModel.store(req.file,req.body);
         return res.send(product);
     } catch (error) {
         next(error);
