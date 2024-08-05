@@ -8,11 +8,9 @@ const convertDateToSQLFormat = (date) => {
 exports.store = async (params) => {
     let message = "Something went wrong", code = 500, data = [];
     try {
-        let eventDate = convertDateToSQLFormat(params.event_date);
-
         const service = await db.query(
             `INSERT INTO service (name, email, mobile, event_date, guests, additional_details) VALUES (?, ?, ?, ?, ?, ?)`,
-            [params.name, params.email, params.mobile, eventDate, params.guests, params.additional_details]
+            [params.name, params.email, params.mobile, params.event_date, params.guests, params.additional_details]
         );
 
         if (service.affectedRows) {
