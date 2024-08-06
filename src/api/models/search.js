@@ -5,7 +5,7 @@ exports.get_search_product = async (query) => {
     code = 500,
     data = [];
   try {
-    const search = await db.query(`SELECT * FROM product WHERE product LIKE ?`, [`%${query}%`]);
+    const search = await db.query(`SELECT * FROM product WHERE product_name LIKE ?`, [`%${query.query}%`]);
     (message = "No product found"), (code = 404), (data = []);
     if (search.length) {
       (message = "Product fetched successfully"), (code = 200), (data = search);

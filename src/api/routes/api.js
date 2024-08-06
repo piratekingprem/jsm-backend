@@ -132,6 +132,6 @@ router.post('/order',orderController.store_offline);
 router.get('/order',orderController.getOrder);
 
 // Serch 
-router.get("/search", search.search_products);
+router.get('/search',search.search_products)
 
 module.exports = router;
