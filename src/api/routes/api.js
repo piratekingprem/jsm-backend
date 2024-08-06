@@ -20,6 +20,7 @@ const BannerController = require('../controllers/banners');
 const poojaController = require('../controllers/pooja');
 const price_tierController = require('../controllers/price_tier');
 const pooja_categoryController = require('../controllers/poojaCategory');
+const orderController = require('../controllers/order');
 
 // Validators
 const userValidator = require('../validations/usersValidation');
@@ -124,5 +125,9 @@ router.get('/price_tier/:id',price_tierController.get_price_tier_by_id);
 router.post('/price_tier',price_tierController.store_price_tier);
 router.put('/price_tier/:id',price_tierController.update_price_tier);
 router.delete('/price_tier/:id',price_tierController.delete_price_tier);
+
+// Order
+router.post('/order',orderController.store_offline);
+router.get('/order',orderController.getOrder);
 
 module.exports = router;
