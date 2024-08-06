@@ -21,6 +21,7 @@ const poojaController = require('../controllers/pooja');
 const price_tierController = require('../controllers/price_tier');
 const pooja_categoryController = require('../controllers/poojaCategory');
 const orderController = require('../controllers/order');
+const search = require("../controllers/search");
 
 // Validators
 const userValidator = require('../validations/usersValidation');
@@ -129,5 +130,8 @@ router.delete('/price_tier/:id',price_tierController.delete_price_tier);
 // Order
 router.post('/order',orderController.store_offline);
 router.get('/order',orderController.getOrder);
+
+// Serch 
+router.get("/search", search.search_products);
 
 module.exports = router;
