@@ -108,15 +108,17 @@ GROUP BY
   return { message, code, data };
 };
 
-exports.update = async (id, params) => {
+exports.update = async (id, file, params) => {
   let message = "Something went wrong",
     code = 500,
     data = [];
+  let image = file ? file.filename : null;
   try {
     const product = await db.query(
-      `UPDATE product SET product_name = ?,product_description = ?,product_short_description = ?,subcategory_id = ?,price = ?,stock_quantity = ? WHERE id = ${id}`,
+      `UPDATE product SET product_name = ?,main_image = ?,product_description = ?,product_short_description = ?,subcategory_id = ?,price = ?,stock_quantity = ? WHERE id = ${id}`,
       [
         params.product_name,
+        image,
         params.product_description,
         params.product_short_description,
         params.subcategory_id,

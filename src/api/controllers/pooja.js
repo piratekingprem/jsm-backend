@@ -36,7 +36,8 @@ exports.get_pooja_by_category_id = async (req,res,next) =>{
 }
 exports.update_pooja = async (req,res,next) => {
     try {
-        const pooja = await poojaModel.update(req.params.id,req.file,req.body);
+        console.log(req)
+        // const pooja = await poojaModel.update(req.params.id,req.file,req.);
         return res.send(pooja);
     } catch (error) {
         next(error);

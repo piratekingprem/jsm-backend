@@ -29,7 +29,7 @@ exports.get_product_id = async (req,res,next)=>{
 
 exports.update_product = async (req,res,next) => {
     try {
-        const product = await productModel.update(req.params.id,req,body);
+        const product = await productModel.update(req.params.id,req.file,req.body);
         return res.send(product);
     } catch (error) {
         next(error);      

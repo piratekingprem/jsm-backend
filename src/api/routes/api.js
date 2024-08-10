@@ -65,7 +65,7 @@ router.delete('/service/:id',serviceController.delete_service);
 router.get('/product',productController.get_product);
 router.get('/product/:id',productController.get_product_id);
 router.post('/product',upload.single("main_image"),productController.store_product);
-router.put('/product/:id',productController.update_product);
+router.put('/product/:id',upload.single("main_image"),productController.update_product);
 router.delete('/product/:id',productController.delete_product);
 
 // product_image_api
