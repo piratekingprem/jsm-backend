@@ -107,6 +107,45 @@ GROUP BY
   }
   return { message, code, data };
 };
+exports.get_category_id = async (category_id) => {
+  let message = "Something went wrong",
+    code = 500,
+    data = [];
+  try {
+    const product = await db.query(
+      `SELECT 
+    p.id,
+    p.product_name,
+    p.main_image,
+    p.product_description,
+    p.product_short_description,
+    p.subcategory_id,
+    p.price,
+    p.stock_quantity,
+    GROUP_CONCAT(DISTINCT pi.image_url) AS ImageURLs, 
+    GROUP_CONCAT(DISTINCT CONCAT(f.featureName, ': ', f.featureValue) SEPARATOR '; ') AS Features
+FROM 
+    product p
+LEFT JOIN 
+    product_image pi ON p.id = pi.product_id
+LEFT JOIN 
+    product_feature f ON p.id = f.product_id
+WHERE
+    p.subcategory_id = ${category_id}
+GROUP BY
+    p.id
+`,
+      []
+    );
+    (message = "No product found"), (code = 400), (data = []);
+    if (product.length) {
+      (message = "Product fetched succesfully"), (code = 200), (data = product);
+    }
+  } catch (error) {
+    message = error;
+  }
+  return { message, code, data };
+};
 
 exports.update = async (id, file, params) => {
   let message = "Something went wrong",

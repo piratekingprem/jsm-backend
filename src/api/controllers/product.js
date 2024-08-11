@@ -26,6 +26,14 @@ exports.get_product_id = async (req,res,next)=>{
         next(error);
     }
 }
+exports.get_product_by_category_id = async (req,res,next) => {
+    try{
+        const product = await productModel.get_category_id(req.params.subcategory_id);
+        return res.send(product);
+    }catch(error){
+        next(error);
+    }
+}
 
 exports.update_product = async (req,res,next) => {
     try {

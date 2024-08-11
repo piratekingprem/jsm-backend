@@ -22,6 +22,7 @@ const price_tierController = require('../controllers/price_tier');
 const pooja_categoryController = require('../controllers/poojaCategory');
 const orderController = require('../controllers/order');
 const search = require("../controllers/search");
+const enquiry_form = require("../controllers/enquiry_form");
 
 // Validators
 const userValidator = require('../validations/usersValidation');
@@ -54,6 +55,13 @@ router.post('/contact_us',contactUsController.store_contact_us);
 router.put('/contact_us/:id',contactUsController.update_contact_us);
 router.delete('/contact_us/:id',contactUsController.delete_contact_us);
 
+// Enquiry_ Form
+router.get('/enquiry_form',enquiry_form.get_enquiry_form);
+router.get('/enquiry_form/:id',enquiry_form.get_enquiry_form_id);
+router.post('/enquiry_form',enquiry_form.store_enquiry_form);
+router.put('/enquiry_form/:id',enquiry_form.update_enquiry_form);
+router.delete('/enquiry_form/:id',enquiry_form.delete_enquiry_form)
+
 // Service_api
 router.get('/service',serviceController.get_service);
 router.get('/service/:id',serviceController.get_service_id);
@@ -64,6 +72,7 @@ router.delete('/service/:id',serviceController.delete_service);
 // Product_API
 router.get('/product',productController.get_product);
 router.get('/product/:id',productController.get_product_id);
+router.get('/product/category/:subcategory_id',productController.get_product_by_category_id);
 router.post('/product',upload.single("main_image"),productController.store_product);
 router.put('/product/:id',upload.single("main_image"),productController.update_product);
 router.delete('/product/:id',productController.delete_product);
