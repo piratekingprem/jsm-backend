@@ -11,19 +11,19 @@ exports.store_offline_payment = async (params) => {
     const payment_mode = params.payment_mode;
     const gst_no = params.gst_no ?? null;
     const orders_id = orderid.generate();
-    const productIds = params.productIds;
-    const orderType = params.order_type;  // New parameter for order_type
-    console.log("params", params);
     
-    for (let productId of productIds) {
+    const products = params.products; 
+    // Assuming `products` is an array of objects like [{ productId, orderType, quantity }, ...]
+
+    for (let product of products) {
       await db.query(
-        `INSERT INTO orders_product (order_id, product_id, order_type) VALUES (?, ?, ?)`,
-        [orders_id, productId, orderType]  // Include order_type in the insert
+        `INSERT INTO orders_product (order_id, product_id, order_type, quantity) VALUES (?, ?, ?, ?)`,
+        [orders_id, product.productId, product.orderType, product.quantity]
       );
     }
 
     const orders = await db.query(
-      `INSERT INTO orders (order_id,user_id,total_amount,payment_mode,payment_status,bill_firstName,bil_lastName,bill_mobile,bill_address,bill_pincode,bill_city,bill_state,bill_email,gst_no) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      `INSERT INTO orders (order_id, user_id, total_amount, payment_mode, payment_status, bill_firstName, bil_lastName, bill_mobile, bill_address, bill_pincode, bill_city, bill_state, bill_email, gst_no) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         orders_id,
         params.userId,
@@ -57,6 +57,7 @@ exports.store_offline_payment = async (params) => {
   return { message, code, data };
 };
 
+
 exports.get_the_order = async () => {
   let message = "Something went wrong",
     code = 500,
@@ -66,7 +67,8 @@ exports.get_the_order = async () => {
       SELECT 
         o.*,
         GROUP_CONCAT(op.product_id) AS productIds,
-        GROUP_CONCAT(op.order_type) AS orderTypes
+        GROUP_CONCAT(op.order_type) AS orderTypes,
+        GROUP_CONCAT(op.quantity) AS quantities
       FROM 
         orders o
       LEFT JOIN 
@@ -89,4 +91,3 @@ exports.get_the_order = async () => {
   }
   return { message, code, data };
 };
-
