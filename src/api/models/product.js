@@ -5,9 +5,10 @@ exports.store = async (file, params) => {
     code = 500,
     data = [];
   let image = file ? file.filename : null;
+  let sale_price = params.discounted_price;
   try {
     const product = await db.query(
-      `INSERT INTO product (product_name, main_image, product_description, product_short_description, subcategory_id, price, stock_quantity, discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO product (product_name, main_image, product_description, product_short_description, subcategory_id, price, stock_quantity, discount, sale_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         params.product_name,
         image,
@@ -17,6 +18,7 @@ exports.store = async (file, params) => {
         params.price,
         params.stock_quantity,
         params.discount,  // New field
+        sale_price
       ]
     );
     message = "No product found";
@@ -49,6 +51,7 @@ exports.get = async () => {
         p.price,
         p.stock_quantity,
         p.discount,  -- New field
+        p.sale_price,
         GROUP_CONCAT(DISTINCT pi.image_url) AS ImageURLs, 
         GROUP_CONCAT(DISTINCT CONCAT(f.featureName, ': ', f.featureValue) SEPARATOR '; ') AS Features
       FROM 
@@ -91,6 +94,7 @@ exports.get_id = async (id) => {
         p.price,
         p.stock_quantity,
         p.discount,  -- New field
+        p.sale_price,
         GROUP_CONCAT(DISTINCT pi.image_url) AS ImageURLs, 
         GROUP_CONCAT(DISTINCT CONCAT(f.featureName, ': ', f.featureValue) SEPARATOR '; ') AS Features
       FROM 
@@ -135,6 +139,7 @@ exports.get_category_id = async (category_id) => {
         p.price,
         p.stock_quantity,
         p.discount,  -- New field
+        p.sale.price,
         GROUP_CONCAT(DISTINCT pi.image_url) AS ImageURLs, 
         GROUP_CONCAT(DISTINCT CONCAT(f.featureName, ': ', f.featureValue) SEPARATOR '; ') AS Features
       FROM 
@@ -171,7 +176,7 @@ exports.update = async (id, file, params) => {
   let image = file ? file.filename : null;
   try {
     const product = await db.query(
-      `UPDATE product SET product_name = ?, main_image = ?, product_description = ?, product_short_description = ?, subcategory_id = ?, price = ?, stock_quantity = ?, discount = ? WHERE id = ${id}`,
+      `UPDATE product SET product_name = ?, main_image = ?, product_description = ?, product_short_description = ?, subcategory_id = ?, price = ?, stock_quantity = ?, discount = ?, sale_price = ? WHERE id = ${id}`,
       [
         params.product_name,
         image,
@@ -181,6 +186,7 @@ exports.update = async (id, file, params) => {
         params.price,
         params.stock_quantity,
         params.discount,  // New field
+        params.discounted_price
       ]
     );
     message = "No product updated";
