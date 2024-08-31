@@ -7,7 +7,7 @@ exports.store = async (file, params) => {
   let image = file ? file.filename : null;
   try {
     const product = await db.query(
-      `INSERT INTO product (product_name,main_image,product_description,product_short_description,subcategory_id,price,stock_quantity) VALUES (?,?,?,?,?,?,?)`,
+      `INSERT INTO product (product_name, main_image, product_description, product_short_description, subcategory_id, price, stock_quantity, discount) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         params.product_name,
         image,
@@ -16,13 +16,16 @@ exports.store = async (file, params) => {
         params.subcategory_id,
         params.price,
         params.stock_quantity,
+        params.discount,  // New field
       ]
     );
-    (message = "No product found"), (code = 400), (data = []);
+    message = "No product found";
+    code = 400;
+    data = [];
     if (product.affectedRows) {
-      (message = "Product created successfully"),
-        (code = 201),
-        (data = product);
+      message = "Product created successfully";
+      code = 201;
+      data = product;
     }
   } catch (error) {
     message = error;
@@ -37,30 +40,34 @@ exports.get = async () => {
   try {
     const product = await db.query(
       `SELECT 
-    p.id,
-    p.product_name,
-    p.main_image,
-    p.product_description,
-    p.product_short_description,
-    p.subcategory_id,
-    p.price,
-    p.stock_quantity,
-    GROUP_CONCAT(DISTINCT pi.image_url) AS ImageURLs, 
-    GROUP_CONCAT(DISTINCT CONCAT(f.featureName, ': ', f.featureValue) SEPARATOR '; ') AS Features
-FROM 
-    product p
-LEFT JOIN 
-    product_image pi ON p.id = pi.product_id
-LEFT JOIN 
-    product_feature f ON p.id = f.product_id
-GROUP BY
-    p.id
-`,
+        p.id,
+        p.product_name,
+        p.main_image,
+        p.product_description,
+        p.product_short_description,
+        p.subcategory_id,
+        p.price,
+        p.stock_quantity,
+        p.discount,  -- New field
+        GROUP_CONCAT(DISTINCT pi.image_url) AS ImageURLs, 
+        GROUP_CONCAT(DISTINCT CONCAT(f.featureName, ': ', f.featureValue) SEPARATOR '; ') AS Features
+      FROM 
+        product p
+      LEFT JOIN 
+        product_image pi ON p.id = pi.product_id
+      LEFT JOIN 
+        product_feature f ON p.id = f.product_id
+      GROUP BY
+        p.id`,
       []
     );
-    (message = "No product found"), (code = 400), (data = []);
+    message = "No product found";
+    code = 400;
+    data = [];
     if (product.length) {
-      (message = "Product fetched succesfully"), (code = 200), (data = product);
+      message = "Product fetched successfully";
+      code = 200;
+      data = product;
     }
   } catch (error) {
     message = error;
@@ -75,38 +82,43 @@ exports.get_id = async (id) => {
   try {
     const product = await db.query(
       `SELECT 
-    p.id,
-    p.product_name,
-    p.main_image,
-    p.product_description,
-    p.product_short_description,
-    p.subcategory_id,
-    p.price,
-    p.stock_quantity,
-    GROUP_CONCAT(DISTINCT pi.image_url) AS ImageURLs, 
-    GROUP_CONCAT(DISTINCT CONCAT(f.featureName, ': ', f.featureValue) SEPARATOR '; ') AS Features
-FROM 
-    product p
-LEFT JOIN 
-    product_image pi ON p.id = pi.product_id
-LEFT JOIN 
-    product_feature f ON p.id = f.product_id
-WHERE
-    p.id = ${id}
-GROUP BY
-    p.id
-`,
+        p.id,
+        p.product_name,
+        p.main_image,
+        p.product_description,
+        p.product_short_description,
+        p.subcategory_id,
+        p.price,
+        p.stock_quantity,
+        p.discount,  -- New field
+        GROUP_CONCAT(DISTINCT pi.image_url) AS ImageURLs, 
+        GROUP_CONCAT(DISTINCT CONCAT(f.featureName, ': ', f.featureValue) SEPARATOR '; ') AS Features
+      FROM 
+        product p
+      LEFT JOIN 
+        product_image pi ON p.id = pi.product_id
+      LEFT JOIN 
+        product_feature f ON p.id = f.product_id
+      WHERE
+        p.id = ${id}
+      GROUP BY
+        p.id`,
       []
     );
-    (message = "No product found"), (code = 400), (data = []);
+    message = "No product found";
+    code = 400;
+    data = [];
     if (product.length) {
-      (message = "Product fetched succesfully"), (code = 200), (data = product);
+      message = "Product fetched successfully";
+      code = 200;
+      data = product;
     }
   } catch (error) {
     message = error;
   }
   return { message, code, data };
 };
+
 exports.get_category_id = async (category_id) => {
   let message = "Something went wrong",
     code = 500,
@@ -114,38 +126,43 @@ exports.get_category_id = async (category_id) => {
   try {
     const product = await db.query(
       `SELECT 
-    p.id,
-    p.product_name,
-    p.main_image,
-    p.product_description,
-    p.product_short_description,
-    p.subcategory_id,
-    p.price,
-    p.stock_quantity,
-    GROUP_CONCAT(DISTINCT pi.image_url) AS ImageURLs, 
-    GROUP_CONCAT(DISTINCT CONCAT(f.featureName, ': ', f.featureValue) SEPARATOR '; ') AS Features
-FROM 
-    product p
-LEFT JOIN 
-    product_image pi ON p.id = pi.product_id
-LEFT JOIN 
-    product_feature f ON p.id = f.product_id
-WHERE
-    p.subcategory_id = ${category_id}
-GROUP BY
-    p.id
-`,
+        p.id,
+        p.product_name,
+        p.main_image,
+        p.product_description,
+        p.product_short_description,
+        p.subcategory_id,
+        p.price,
+        p.stock_quantity,
+        p.discount,  -- New field
+        GROUP_CONCAT(DISTINCT pi.image_url) AS ImageURLs, 
+        GROUP_CONCAT(DISTINCT CONCAT(f.featureName, ': ', f.featureValue) SEPARATOR '; ') AS Features
+      FROM 
+        product p
+      LEFT JOIN 
+        product_image pi ON p.id = pi.product_id
+      LEFT JOIN 
+        product_feature f ON p.id = f.product_id
+      WHERE
+        p.subcategory_id = ${category_id}
+      GROUP BY
+        p.id`,
       []
     );
-    (message = "No product found"), (code = 400), (data = []);
+    message = "No product found";
+    code = 400;
+    data = [];
     if (product.length) {
-      (message = "Product fetched succesfully"), (code = 200), (data = product);
+      message = "Product fetched successfully";
+      code = 200;
+      data = product;
     }
   } catch (error) {
     message = error;
   }
   return { message, code, data };
 };
+
 
 exports.update = async (id, file, params) => {
   let message = "Something went wrong",
@@ -154,7 +171,7 @@ exports.update = async (id, file, params) => {
   let image = file ? file.filename : null;
   try {
     const product = await db.query(
-      `UPDATE product SET product_name = ?,main_image = ?,product_description = ?,product_short_description = ?,subcategory_id = ?,price = ?,stock_quantity = ? WHERE id = ${id}`,
+      `UPDATE product SET product_name = ?, main_image = ?, product_description = ?, product_short_description = ?, subcategory_id = ?, price = ?, stock_quantity = ?, discount = ? WHERE id = ${id}`,
       [
         params.product_name,
         image,
@@ -163,13 +180,16 @@ exports.update = async (id, file, params) => {
         params.subcategory_id,
         params.price,
         params.stock_quantity,
+        params.discount,  // New field
       ]
     );
-    (message = "No product updated"), (code = 400), (data = []);
+    message = "No product updated";
+    code = 400;
+    data = [];
     if (product.affectedRows) {
-      (message = "Successfully updated product"),
-        (code = 200),
-        (data = product);
+      message = "Successfully updated product";
+      code = 200;
+      data = product;
     }
   } catch (error) {
     message = error;
