@@ -15,7 +15,7 @@ exports.store_offline = async (req, res, next) => {
         <p>We are processing your order and will notify you once it has been shipped.</p>
         <p>If you have any questions or need further assistance, please do not hesitate to contact us.</p>
         <p>Best regards,</p>
-        <p><strong>Shapier Team</strong></p>
+        <p><strong><a href='https://jeevansanskriti.com'>jeevansanskriti.com</a/></strong></p>
       </div>`;
     await transporter.sendMail(mailoption);
     return res.send(order);
