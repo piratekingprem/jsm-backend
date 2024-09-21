@@ -15,6 +15,7 @@ module.exports = {
         bill_state VARCHAR(225) NULL,
         bill_email VARCHAR(225) NULL,
         gst_no VARCHAR(225) NULL,
+        message varchar(255) NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )`,

@@ -11,7 +11,7 @@ exports.store_offline_payment = async (params) => {
     const payment_mode = params.payment_mode;
     const gst_no = params.gst_no ?? null;
     const orders_id = orderid.generate();
-    
+    const order_message = params.message ?? null;
     const products = params.products; 
     // Assuming `products` is an array of objects like [{ productId, orderType, quantity }, ...]
 
@@ -23,7 +23,7 @@ exports.store_offline_payment = async (params) => {
     }
 
     const orders = await db.query(
-      `INSERT INTO orders (order_id, user_id, total_amount, payment_mode, payment_status, bill_firstName, bil_lastName, bill_mobile, bill_address, bill_pincode, bill_city, bill_state, bill_email, gst_no) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO orders (order_id, user_id, total_amount, payment_mode, payment_status, bill_firstName, bil_lastName, bill_mobile, bill_address, bill_pincode, bill_city, bill_state, bill_email, gst_no, message) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         orders_id,
         params.userId,
@@ -39,6 +39,7 @@ exports.store_offline_payment = async (params) => {
         params.billingInfo.state,
         params.billingInfo.email,
         gst_no,
+        order_message
       ]
     );
 

@@ -11,7 +11,6 @@ exports.store_offline = async (req, res, next) => {
         <h2 style="color: #4CAF50;">Order Confirmation</h2>
         <p>Dear ${req.body.billingInfo.firstName},</p>
         <p>Thank you for your order. We are pleased to confirm that your order has been successfully created.</p>
-        <h4>Order Details:</h4>
         <p>We are processing your order and will notify you once it has been shipped.</p>
         <p>If you have any questions or need further assistance, please do not hesitate to contact us.</p>
         <p>Best regards,</p>

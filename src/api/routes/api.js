@@ -134,6 +134,7 @@ router.get('/price_tier',price_tierController.get_price_tier);
 router.get('/price_tier/:id',price_tierController.get_price_tier_by_id);
 router.post('/price_tier',price_tierController.store_price_tier);
 router.put('/price_tier/:id',price_tierController.update_price_tier);
+router.put('/price_tier/update_price/:id',price_tierController.update_price);
 router.delete('/price_tier/:id',price_tierController.delete_price_tier);
 
 // Order

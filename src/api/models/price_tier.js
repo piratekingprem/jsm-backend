@@ -60,6 +60,23 @@ exports.update = async (id,params) => {
     }
     return {message,code,data};
 }
+exports.update_price = async (id,params) => {
+    let message = 'Something went wrong',code = 500,data = [];
+    try {
+        const price = await db.query(
+            `UPDATE price_tier SET price = ? WHERE id = ?`,[params.price,id]
+        )
+        message = "Error updating price",code = 400, data = [];
+        if(price.affectedRows){
+            message = "Price updated successfully",code = 400,data = [];
+        }
+
+ }catch(error){
+    message = error;
+ }
+ return {message,code,data};
+ 
+}
 exports.delete = async (id) => {
     let message = "Something went wrong",code = 500,data = [];
     try {

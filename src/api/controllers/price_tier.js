@@ -32,6 +32,14 @@ exports.update_price_tier = async (req,res,next) => {
         next(error);
     }
 }
+exports.update_price = async (req,res,next) => {
+    try {
+        const price = await price_tierModel.update_price(req.params.id, req.body);
+        return res.send(price);
+    } catch (error) {
+        next(error);
+    }
+}
 exports.delete_price_tier = async (req,res,next) => {
     try {
         const price_tier = await price_tierModel.delete(req.params.id);
