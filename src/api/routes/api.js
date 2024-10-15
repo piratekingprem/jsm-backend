@@ -104,6 +104,7 @@ router.delete('cart/:id',cartController.delete_cart);
 // usercontroller
 router.get("/user", userController.get_user_list);
 router.get("/user/:id", userController.get_user);
+router.get("/user/email/:email",userController.get_user_by_email);
 router.delete("/user/:id",userController.delete_user);
 
 // BannerController
