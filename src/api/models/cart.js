@@ -71,6 +71,22 @@ exports.get_by_cart_user_id = async (userId) => {
     }
     return { message, code, data };
 };
+
+exports.get_total_product = async (userId) =>{
+  let message = "Something went wrong",
+  code = 500,
+  data = [];
+  try {
+    const carts = await db.query(`SELECT SUM(quantity) as total_product FROM cart WHERE user_id = ${userId}`);
+    (message = "cart is empty"),(code = 400);
+    if(carts.length){
+      message = "cart fetched successfully",code = 200,data = carts;
+    }
+  } catch (error) {
+    message = error
+  }
+  return {message,code,data};
+}
 exports.update = async (id, params) => {
     let message = "Something went wrong",
       code = 500,

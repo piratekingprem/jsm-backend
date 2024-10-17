@@ -33,6 +33,16 @@ exports.get_by_cart_user_id = async (req,res,next) => {
         next(error)
     }
 }
+
+exports.get_total_product_of_user = async (req,res,next) => {
+    try {
+        const carts = await cartModel.get_total_product(req.params.userId);
+        return res.send(carts);
+    } catch (error) {
+        next(error);
+    }
+}
+
 exports.update_cart = async (req,res,next) => {
     try {
         const cart  = await cartModel.update(req.params.id,req.body);
