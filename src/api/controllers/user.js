@@ -16,6 +16,7 @@ exports.get_user = async (req, res, next) => {
     next(error);
   }
 };
+
 exports.get_user_by_email = async (req, res, next) => {
   try {
     const response = await userModel.get_user_by_email(req.params.email);

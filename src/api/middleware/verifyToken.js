@@ -15,7 +15,6 @@ const verifyToken = (req,res,next)=>{
     }else {
         return res.status(401).json({"message": "You could not be authorized", "code":401});
     }
-
 }
 
 module.exports = verifyToken;
