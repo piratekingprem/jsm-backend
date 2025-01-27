@@ -23,6 +23,7 @@ const pooja_categoryController = require('../controllers/poojaCategory');
 const orderController = require('../controllers/order');
 const search = require("../controllers/search");
 const enquiry_form = require("../controllers/enquiry_form");
+const category_product = require("../controllers/categoryProduct");
 
 // Validators
 const userValidator = require('../validations/usersValidation');
@@ -145,5 +146,10 @@ router.get('/order',orderController.getOrder);
 
 // Serch 
 router.get('/search',search.search_products)
+
+// category_product
+router.post('/category_product',upload.single("image"),category_product.store_categoryProduct);
+router.get('/category_product',category_product.get_categoryProduct);
+router.get('/category_product/:id',category_product.get_categoryProduct_by_id);
 
 module.exports = router;
