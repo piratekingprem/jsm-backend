@@ -3,13 +3,14 @@ const app = express();
 const cors = require("cors");
 const apiRouter = require('./src/api/routes/api');
 const methodeOverride = require("method-override");
+const compression = require('compression');
 require("dotenv").config();
 
 app.use(cors());
 app.use(express.json());
 app.use(methodeOverride("_method"));
 app.use(express.static("public"));
-
+app.use(compression());
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
