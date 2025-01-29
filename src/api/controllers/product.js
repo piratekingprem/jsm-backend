@@ -18,6 +18,15 @@ exports.get_product = async (req,res,next) => {
     }
 }
 
+exports.get_product_by_cat_id = async (req,res,next) => {
+    try{
+        const product = await productModel.get_cat_id(req.params.category_id);
+        return res.send(product);
+    }catch(error){
+        next(error);
+    }
+}
+
 exports.get_product_id = async (req,res,next)=>{
     try {
         const product = await productModel.get_id(req.params.id);

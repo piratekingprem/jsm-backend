@@ -74,6 +74,7 @@ router.delete('/service/:id',serviceController.delete_service);
 router.get('/product',productController.get_product);
 router.get('/product/:id',productController.get_product_id);
 router.get('/product/category/:subcategory_id',productController.get_product_by_category_id);
+router.get('/product/cat_id/:category_id',productController.get_product_by_cat_id);
 router.post('/product',upload.single("main_image"),productController.store_product);
 router.put('/product/:id',upload.single("main_image"),productController.update_product);
 router.delete('/product/:id',productController.delete_product);
@@ -151,5 +152,6 @@ router.get('/search',search.search_products)
 router.post('/category_product',upload.single("image"),category_product.store_categoryProduct);
 router.get('/category_product',category_product.get_categoryProduct);
 router.get('/category_product/:id',category_product.get_categoryProduct_by_id);
+
 
 module.exports = router;
