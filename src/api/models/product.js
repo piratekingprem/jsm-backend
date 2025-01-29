@@ -149,7 +149,7 @@ exports.get_cat_id = async (cat_id) => {
         product_image pi ON p.id = pi.product_id
       LEFT JOIN 
         product_feature f ON p.id = f.product_id
-      WHERE category_id = ?  
+      WHERE category = ?  
       GROUP BY
         p.id`,
       [cat_id]
