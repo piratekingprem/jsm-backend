@@ -151,7 +151,8 @@ exports.get_cat_id = async (cat_id) => {
         product_feature f ON p.id = f.product_id
       WHERE category = ?  
       GROUP BY
-        p.id`,
+        p.id
+        ORDER BY p.id`,
       [cat_id]
     );
     message = "No product found of this category";

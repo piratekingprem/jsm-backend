@@ -29,7 +29,7 @@ exports.store = async (file, params) => {
 exports.get = async () => {
     var message = "Something went wrong", code = 500, data = [];
     try {
-        const category_product = await db.query(`SELECT * FROM category_product ORDER BY category_name`);
+        const category_product = await db.query(`SELECT * FROM category_product ORDER BY id`);
         message = "No category found", code = 400, data = [];
         if (category_product.length) {
             message = "Product found successfully",
