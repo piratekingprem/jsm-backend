@@ -102,7 +102,7 @@ router.get('/cart_by_user_id/:userId',verify,cartController.get_by_cart_user_id)
 router.get('/cart/total/:userId' ,cartController.get_total_product_of_user);
 router.post('/cart',cartController.store_cart);
 router.put('/cart/:id',cartController.update_cart);
-router.delete('cart/:id',cartController.delete_cart);
+router.delete('/cart/:id',cartController.delete_cart);
 
 // usercontroller
 router.get("/user", userController.get_user_list);

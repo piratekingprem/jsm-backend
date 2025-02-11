@@ -105,7 +105,7 @@ exports.update = async (id, params) => {
     }
     return { message, code, data };
 };
-exports.delete = async (id) => {
+exports.delete_carts = async (id) => {
     let message = "Something went wrong",
       code = 500,
       data = [];

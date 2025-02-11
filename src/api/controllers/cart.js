@@ -53,7 +53,8 @@ exports.update_cart = async (req,res,next) => {
 }
 exports.delete_cart = async (req,res,next) => {
     try {
-        const cart  = await cartModel.delete(req.params.id);
+        console.log("fgklasjkg")
+        const cart  = await cartModel.delete_carts(req.params.id);
         return res.send(cart)
     } catch (error) {
         next(error);
