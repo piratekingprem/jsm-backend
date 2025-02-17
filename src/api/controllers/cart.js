@@ -45,17 +45,35 @@ exports.get_total_product_of_user = async (req,res,next) => {
 
 exports.update_cart = async (req,res,next) => {
     try {
+        console.log(req.params)
         const cart  = await cartModel.update(req.params.id,req.body);
         return res.send(cart)
     } catch (error) {
         next(error);
     }
 }
+exports.update_cart_quantity = async (req,res,next) => {
+    try {
+        const cart  = await cartModel.update_quantity(req.params.id,req.body);
+        return res.send(cart)
+    } catch (error) {
+        next(error);
+    }
+}
+
 exports.delete_cart = async (req,res,next) => {
     try {
-        console.log("fgklasjkg")
         const cart  = await cartModel.delete_carts(req.params.id);
         return res.send(cart)
+    } catch (error) {
+        next(error);
+    }
+}
+
+exports.delete_cart_product_id = async (req,res,next) => {
+    try {
+        const cart  = await cartModel.delte_cart_product_id(req.params.product_id);
+        return res.send(cart);
     } catch (error) {
         next(error);
     }
